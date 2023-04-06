@@ -178,7 +178,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 fi
 
 ### Copy Config Files ###
-read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to clone dotfiles and copy config files? (y,n) ' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
 #    echo -e "$CNT - Copying config files..."
 #    for DIR in hypr kitty mako swaylock waybar wlogout wofi 
@@ -192,6 +192,12 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 #        echo -e "$CNT - Copying $DIR config to $DIRPATH."  
 #        cp -R $DIR ~/.config/ &>> $INSTLOG
 #    done
+    
+   alias track='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+   git clone --bare https://github.com/Coderangshu/dotfile-hyprland.git $HOME/.cfg
+   rm .gitignore .bashrc 
+   alias track='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+   track checkout
 
     # Set some files as exacutable
     echo -e "$CNT - Setting some file as executable." 
