@@ -37,6 +37,7 @@
 # xfce4-settings: set of tools for xfce, needed to set GTK theme
 # sddm: developement version of SDDM which is a display manager for graphical login
 # sddm-sugar-candy-git: an sddm theme my theme is based on (copy of)
+# zramd: to enable zram
 
 # set some colors
 CNT="[\e[1;36mNOTE\e[0m]"
@@ -146,7 +147,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 3
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
-    paru -S --needed --noconfirm starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm sddm-sugar-candy-git
+    paru -S --needed --noconfirm starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm sddm-sugar-candy-git zramd
 
 fi
 
@@ -165,6 +166,9 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 
     # Enable the sddm login manager service
 #    autostart "sddm"
+
+    # Enable and start zram
+    autostart "zramd"
     
     # sudo s6-db-reload
     
@@ -211,7 +215,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
         sudo mkdir $WLDIR
     fi 
     sudo cp ~/.config/hyprSetup/extras/hyprland.desktop /usr/share/wayland-sessions/
-    sudo sudo sed -i 's/Exec=Hyprland/Exec=\/home\/'$USER'\/start-hypr/' /usr/share/wayland-sessions/hyprland.desktop
+    sudo sed -i 's/Exec=Hyprland/Exec=\/home\/'$USER'\/start-hypr/' /usr/share/wayland-sessions/hyprland.desktop
     cp ~/.config/hyprSetup/extras/start-hypr ~/
 
     #setup the first look and feel as dark
