@@ -8,7 +8,7 @@
 #
 # hyprland-git: This is the Hyprland compositor
 # kitty: This is the default terminal
-# waybar-hyprland-no-systemd: This is a fork of waybar with Hyprland workspace support and for systemdless kernels
+# waybar-hyprland: This is a fork of waybar with Hyprland workspace support and for systemdless kernels
 # swww: This is used to set a desktop background image
 # swaylock-effects: This allows for the locking of the desktop its a fork that adds some editional visual effects
 # wofi: This is an application launcher menu
@@ -139,7 +139,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    paru -S --needed --noconfirm hyprland-git kitty waybar-hyprland-no-systemd swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp
+    paru -S --needed --noconfirm hyprland-git kitty waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp
 
     #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
@@ -178,7 +178,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 fi
 
 ### Copy Config Files ###
-read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to clone dotfiles and copy config files? (y,n) ' CFG
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
 #    echo -e "$CNT - Copying config files..."
 #    for DIR in hypr kitty mako swaylock waybar wlogout wofi 
@@ -192,12 +192,6 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 #        echo -e "$CNT - Copying $DIR config to $DIRPATH."  
 #        cp -R $DIR ~/.config/ &>> $INSTLOG
 #    done
-    
-   alias track='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-   git clone --bare https://github.com/Coderangshu/dotfile-hyprland.git $HOME/.cfg
-   rm .gitignore .bashrc 
-   alias track='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-   track checkout
 
     # Set some files as exacutable
     echo -e "$CNT - Setting some file as executable." 
