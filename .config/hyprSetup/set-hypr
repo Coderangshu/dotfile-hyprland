@@ -162,7 +162,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
         sleep 2
     }
     # Start the bluetooth service
-    autostart "bluetoothd"
+    autostart "bluetooth"
 
     # Enable the sddm login manager service
 #    autostart "sddm"
