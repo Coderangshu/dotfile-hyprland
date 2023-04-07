@@ -97,18 +97,18 @@ else
     fi
 fi
 
-# ### Disable wifi powersave mode ###
-# read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to disable WiFi powersave? (y,n) ' WIFI
-# if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
-#     LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
-#     echo -e "$CNT - The following file has been created $LOC."
-#     echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
-#     echo -e "\n"
-#     echo -e "$CNT - Restarting NetworkManager service..."
-#     sleep 1
-#     sudo systemctl restart NetworkManager &>> $INSTLOG
-#     sleep 3
-# fi
+### Disable wifi powersave mode ###
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to disable WiFi powersave? (y,n) ' WIFI
+if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
+     LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
+     echo -e "$CNT - The following file has been created $LOC."
+     echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
+     echo -e "\n"
+     echo -e "$CNT - Restarting NetworkManager service..."
+     sleep 1
+     sudo systemctl restart NetworkManager &>> $INSTLOG
+     sleep 3
+fi
 
 ### Install all of the above packages ####
 # installer() {
@@ -164,12 +164,12 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     # Start the bluetooth service
     autostart "bluetooth"
 
-    # Enable the sddm login manager service
-#    autostart "sddm"
-
     # Enable and start zram
     autostart "zramd"
     
+    # Enable the sddm login manager service
+#    autostart "sddm"
+
     # sudo s6-db-reload
     
     # Clean out other portals
