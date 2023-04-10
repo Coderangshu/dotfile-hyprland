@@ -8,6 +8,7 @@
 #
 # hyprland-git: This is the Hyprland compositor
 # kitty: This is the default terminal
+# pistol: kitty helper to view images in terminal by terminal file explorer
 # waybar-hyprland: This is a fork of waybar with Hyprland workspace support and for systemdless kernels
 # swww: This is used to set a desktop background image
 # swaylock-effects: This allows for the locking of the desktop its a fork that adds some editional visual effects
@@ -20,6 +21,9 @@
 # slurp: This helps with screenshots, it selects a region in a Wayland compositor
 # polkit-gnome: needed to get superuser access on some graphical appliaction
 # python-requests: needed for the weather module script to execute
+# pipewire: audio daemon
+# pipewire-pulse: pulse utils required for audio and screen sharing
+# wireplumber: enalbles audio and screen sharing using pipewire
 # pamixer: This helps with audio settings such as volume
 # pavucontrol: GUI for managing audio and audio devices
 # brightnessctl: used to control monitor and keyboard bright level
@@ -38,6 +42,15 @@
 # sddm: developement version of SDDM which is a display manager for graphical login
 # sddm-sugar-candy-git: an sddm theme my theme is based on (copy of)
 # zramd: to enable zram
+# neofetch: terminal prompt
+# python-pywal: custom colorscheme generator
+# rmtrash: move file to trash
+# exa: modified ls
+# lf: terminal file browser
+# ueberzug: image viewer in terminal
+# zsh: bash substitute
+# dragon-drag-and-drop: drag and drop items to and from terminal
+# gammastep: wayland redshift
 
 # set some colors
 CNT="[\e[1;36mNOTE\e[0m]"
@@ -139,15 +152,20 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    paru -S --needed --noconfirm hyprland-git kitty waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp
+    paru -S --needed --noconfirm hyprland-git kitty pistol waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp
 
     #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
-    paru -S --needed --noconfirm polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman udiskie file-roller btop pacman-contrib
+    paru -S --needed --noconfirm polkit-gnome python-requests pipewire pipewire-pulse wireplumber pamixer pavucontrol brightnessctl bluez bluez-utils blueman udiskie file-roller btop pacman-contrib
 
     #Stage 3
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
     paru -S --needed --noconfirm starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm sddm-sugar-candy-git zramd
+    
+    #Stage 4
+    echo -e "\n$CNT - Stage 4 - Installing other required utilities, this may take a while..."
+    paru -S --needed --noconfirm neofetch python-pywal rmtrash exa lf dragon-drag-and-drop gammastep
+
 
 fi
 
@@ -229,15 +247,15 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 fi
 
 ### Install the starship shell ###
-#read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
-#if [[ $STAR == "Y" || $STAR == "y" ]]; then
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
+if [[ $STAR == "Y" || $STAR == "y" ]]; then
     # install the starship shell
 #    echo -e "$CNT - Hansen Crusher, Engage!"
-#    echo -e "$CNT - Updating .bashrc..."
-#    echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
+    echo -e "$CNT - Updating .bashrc..."
+    echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
 #    echo -e "$CNT - copying starship config file to ~/.confg ..."
 #    cp extras/starship.toml ~/.config/
-#fi
+fi
 
 ### Script is done ###
 echo -e "$CNT - Script had completed!"

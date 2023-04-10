@@ -71,6 +71,8 @@ tooltip label{
 #tray,
 #temperature,
 #workspaces,
+#disk,
+#temperature,
 #backlight {
     background: #1e1e2e;
     opacity: 0.8;
@@ -80,11 +82,11 @@ tooltip label{
     border: 0px;
 }
 
-#tray, #custom-lock_screen, #temperature, #backlight, #custom-launch_wofi, #cpu {
+#tray, #custom-lock_screen, #backlight, #custom-launch_wofi, #cpu {
     border-radius: 10px 0px 0px 10px;
 }
 
-#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery, #disk {
+#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery {
     border-radius: 0px 10px 10px 0px;
     margin-right: 10px;
 }

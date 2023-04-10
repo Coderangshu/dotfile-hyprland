@@ -1,0 +1,4 @@
+.cfg
+__pycache__
+.config/zsh/plugins
+.config/zsh/.zcompdump

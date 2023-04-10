@@ -6,12 +6,12 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 50,
-    "modules-left": ["custom/launch_wofi","wlr/workspaces","cpu","memory","disk"],
-    "modules-center": ["custom/lock_screen","custom/updates","clock","custom/power_btn"],
-    "modules-right": ["temperature","custom/power_profile","battery","backlight","pulseaudio","pulseaudio#microphone","tray","network","custom/weather","custom/light_dark"],
+    "modules-left": ["custom/launch_wofi","wlr/workspaces","cpu","memory","disk","temperature","custom/power_profile","battery"],
+    "modules-center": ["custom/lock_screen","clock","custom/power_btn"],
+    "modules-right": ["backlight","custom/updates","pulseaudio","pulseaudio#microphone","tray","network","blutooth","custom/weather","custom/light_dark"],
     
     "network": {
-	    "interface": "wlan0",
+	    "interface": "wlo1",
 	    "format": "{ifname}",
 	    "format-wifi": "{icon}",
 	    "format-ethernet": "{ipaddr}/{cidr} ",
@@ -19,10 +19,22 @@
 	    "tooltip-format": "{ifname} via {gwaddr} ",
 	    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
 	    "tooltip-format-ethernet": "{ifname} ",
-	    "on-click": "connman-gtk",
+	    "on-click": "nm-connection-editor",
 	    "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
 	    "max-length": 50 
     },
+
+   "bluetooth": {
+	"controller": "70:66:55:33:F4:AA",
+	"format": " {status}",
+	"format-connected": " {device_alias}",
+	"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+	// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    }, 
 
     "hyprland/window": {
         "format": "{}"
