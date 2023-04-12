@@ -3,7 +3,9 @@
 export ZDOTDIR=$HOME/.config/zsh
 
 # If tty1 startx
-[ "$(tty)" = "/dev/tty1" ] && ! pidof -s sddm >/dev/null 2>&1 && exec echo "123" | sudo -S systemctl start sddm >/dev/null 2>&1
+# [ "$(tty)" = "/dev/tty1" ] && ! pidof -s sddm >/dev/null 2>&1 && exec echo "123" | sudo -S systemctl start sddm >/dev/null 2>&1
+[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Hyprland >/dev/null 2>&1 && exec Hyprland >/dev/null 2>&1
+
 
 # Command history
 HISTSIZE=100000

@@ -6,9 +6,9 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 50,
-    "modules-left": ["custom/launch_wofi","wlr/workspaces","cpu","memory","disk","temperature","custom/power_profile","battery"],
-    "modules-center": ["custom/lock_screen","clock","custom/power_btn"],
-    "modules-right": ["backlight","custom/updates","pulseaudio","pulseaudio#microphone","tray","network","blutooth","custom/weather","custom/light_dark"],
+    "modules-left": ["custom/launch_wofi","wlr/workspaces","temperature","custom/updates","battery"],
+    "modules-center": ["clock","custom/weather"],
+    "modules-right": ["tray","backlight","pulseaudio","pulseaudio#microphone","network","blutooth","custom/light_dark","custom/power_btn"],
     
     "network": {
 	    "interface": "wlo1",
@@ -26,14 +26,14 @@
 
    "bluetooth": {
 	"controller": "70:66:55:33:F4:AA",
-	"format": " {status}",
-	"format-connected": " {device_alias}",
-	"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+	"format": " {status}"
+	//"format-connected": " {device_alias}",
+	//"format-connected-battery": " {device_alias} {device_battery_percentage}%",
 	// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
-	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-	"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+	//"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+	//"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	//"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	//"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
     }, 
 
     "hyprland/window": {
@@ -94,7 +94,7 @@
         "exec": "~/.config/waybar/scripts/update-sys",
         "on-click": "~/.config/waybar/scripts/update-sys update",
         "interval": 300,
-        "tooltip": true
+        "tooltip": false
     },
 
     "wlr/workspaces": {
@@ -146,11 +146,10 @@
 
     "backlight": {
         "device": "amdgpu_bl0",
-        "format": "{icon} {percent}%",
+        "format": "{icon}",
         "format-icons": ["", "", ""],
-        "on-scroll-up": "brightnessctl set 1%+",
-        "on-scroll-down": "brightnessctl set 1%-",
-        "min-length": 6
+        "on-scroll-up": "exec ~/.config/hypr/scripts/brightness --inc",
+        "on-scroll-down": "exec ~/.config/hypr/scripts/brightness --dec"
     },
 
     "battery": {
@@ -159,20 +158,21 @@
             "warning": 30,
             "critical": 20
         },
-        "format": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
+        "format": "{icon}",
+        "format-charging": "󰂄",
         "format-alt": "{time} {icon}",
+	"tooltip-format": "{timeTo} ({capacity}%)",
         "format-icons": ["", "", "", "", "", "", "", "", "", "", ""]
     },
 
     "pulseaudio": {
-        "format": "{icon} {volume}%",
+        "format": "{icon}",
         "format-muted": "",
-        "on-click": "pamixer -t",
+	"tooltip-format": "{volume}",
+        "on-click": "exec ~/.config/hypr/scripts/volume --toggle",
         "on-click-right": "pavucontrol",
-        "on-scroll-up": "pamixer -i 5",
-        "on-scroll-down": "pamixer -d 5",
+        "on-scroll-up": "exec ~/.config/hypr/scripts/volume --inc",
+        "on-scroll-down": "exec ~/.config/hypr/scripts/volume --dec",
         "scroll-step": 5,
         "format-icons": {
             "headphone": "",
@@ -186,13 +186,14 @@
     },
 
     "pulseaudio#microphone": {
-        "format": "{format_source}",
-        "format-source": " {volume}%",
+	"format": "{format_source}",
+        "format-source": "",
         "format-source-muted": "",
-        "on-click": "pamixer --default-source -t",
+	"tooltip": false,
+        "on-click": "exec ~/.config/hypr/scripts/volume --toggle-mic",
         "on-click-right": "pavucontrol",
-        "on-scroll-up": "pamixer --default-source -i 5",
-        "on-scroll-down": "pamixer --default-source -d 5",
+        "on-scroll-up": "exec ~/.config/hypr/scripts/volume --mic-inc",
+        "on-scroll-down": "exec ~/.config/hypr/scripts/volume --mic-dec",
         "scroll-step": 5
     },
     
@@ -201,6 +202,7 @@
         "format": " {temperatureC}°C",
         "critical-threshold": 70,
         "format-critical": " {temperatureC}°C",
-        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'",
+	"tooltip": false
     }
 }

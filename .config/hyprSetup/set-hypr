@@ -19,7 +19,7 @@
 # swappy: This is a screenshot editor tool
 # grim: This is a screenshot tool it grabs images from a Wayland compositor
 # slurp: This helps with screenshots, it selects a region in a Wayland compositor
-# polkit-gnome: needed to get superuser access on some graphical appliaction
+# polkit-kde-agent: needed to get superuser access on some graphical appliaction
 # python-requests: needed for the weather module script to execute
 # pipewire: audio daemon
 # pipewire-pulse: pulse utils required for audio and screen sharing
@@ -51,6 +51,7 @@
 # zsh: bash substitute
 # dragon-drag-and-drop: drag and drop items to and from terminal
 # gammastep: wayland redshift
+# auto-cpufreq: optimize cpu performance for extending battery life
 
 # set some colors
 CNT="[\e[1;36mNOTE\e[0m]"
@@ -156,7 +157,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
-    paru -S --needed --noconfirm polkit-gnome python-requests pipewire pipewire-pulse wireplumber pamixer pavucontrol brightnessctl bluez bluez-utils blueman udiskie file-roller btop pacman-contrib
+    paru -S --needed --noconfirm polkit-kde-agent python-requests pipewire pipewire-pulse wireplumber pamixer pavucontrol brightnessctl bluez bluez-utils blueman udiskie file-roller btop pacman-contrib
 
     #Stage 3
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
@@ -164,14 +165,14 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 4
     echo -e "\n$CNT - Stage 4 - Installing other required utilities, this may take a while..."
-    paru -S --needed --noconfirm neofetch python-pywal rmtrash exa lf dragon-drag-and-drop gammastep
+    paru -S --needed --noconfirm neofetch python-pywal rmtrash exa lf dragon-drag-and-drop gammastep auto-cpufreq
 
 
 fi
 
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to add the default services to autostart? (y,n) ' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
-    # Start default services
+    # Enable and start default services
     autostart() {
         echo -e "$CNT - Starting the $1 Service..."
 	sudo systemctl enable --now $1
@@ -179,16 +180,12 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
         # sudo s6-service add default $1
         sleep 2
     }
-    # Start the bluetooth service
     autostart "bluetooth"
-
-    # Enable and start zram
     autostart "zramd"
-    
-    # Enable the sddm login manager service
-#    autostart "sddm"
+    autostart "auto-cpufreq"
+    #autostart "sddm"
 
-    # sudo s6-db-reload
+    #sudo s6-db-reload
     
     # Clean out other portals
     echo -e "$CNT - Cleaning out conflicting xdg portals..."
@@ -196,21 +193,8 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 fi
 
 ### Copy Config Files ###
-read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy sddm and waybar theme files? (y,n) ' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
-#    echo -e "$CNT - Copying config files..."
-#    for DIR in hypr kitty mako swaylock waybar wlogout wofi 
-#    do 
-#        DIRPATH=~/.config/$DIR
-#        if [ -d "$DIRPATH" ]; then 
-#            echo -e "$CAT - Config for $DIR located, backing up."
-#            mv $DIRPATH $DIRPATH-backup &>> $INSTLOG
-#            echo -e "$COK - Backed up $DIR to $DIRPATH-backup."
-#        fi
-#        echo -e "$CNT - Copying $DIR config to $DIRPATH."  
-#        cp -R $DIR ~/.config/ &>> $INSTLOG
-#    done
-
     # Set some files as exacutable
     echo -e "$CNT - Setting some file as executable." 
     chmod +x ~/.config/hypr/scripts/bgaction
@@ -244,17 +228,6 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
     gsettings set org.gnome.desktop.interface icon-theme "Adwaita-dark"
     ln -sf /usr/share/sddm/themes/sdt/Backgrounds/wallpaper-dark.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
-fi
-
-### Install the starship shell ###
-read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
-if [[ $STAR == "Y" || $STAR == "y" ]]; then
-    # install the starship shell
-#    echo -e "$CNT - Hansen Crusher, Engage!"
-    echo -e "$CNT - Updating .bashrc..."
-    echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
-#    echo -e "$CNT - copying starship config file to ~/.confg ..."
-#    cp extras/starship.toml ~/.config/
 fi
 
 ### Script is done ###

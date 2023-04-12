@@ -1,6 +1,6 @@
 # Overall format of cli prompt
 format = '''
-[ ╭─]($style)$username$hostname$directory$all$cmd_duration
+[ ╭─]($style)$username $hostname$directory$all$cmd_duration
 [ │]($style)$time $battery $git_status $status
 $character '''
 

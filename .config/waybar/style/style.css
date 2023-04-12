@@ -3,7 +3,7 @@
     border-radius: 0;
     font-family: "JetBrainsMono Nerd Font";
     font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
     min-height: 0;
 }
 
@@ -27,12 +27,12 @@ tooltip label{
 
 #workspaces button {
     padding: 5px;
-    color: #313244;
+    color: #a6adc8;
     margin-right: 5px;
 }
 
 #workspaces button.active {
-    color: #a6adc8;
+    color: #313244;
 }
 
 #workspaces button.focused {
@@ -61,38 +61,41 @@ tooltip label{
 #custom-weather,
 #window,
 #cpu,
+#clock,
 #disk,
 #custom-updates,
 #memory,
-#clock,
 #battery,
 #pulseaudio,
 #network,
 #tray,
-#temperature,
 #workspaces,
 #disk,
 #temperature,
 #backlight {
-    background: #e7e7ec;
+    background: #B9EDDD;
     opacity: 0.8;
     padding: 0px 10px;
-    margin: 3px 0px;
-    margin-top: 10px;
+    margin: 9px 0px;
     border: 0px;
 }
 
-#tray, #custom-lock_screen, #backlight, #custom-launch_wofi, #cpu {
+#custom-lock_screen, #backlight, #custom-launch_wofi, #cpu, #temperature, #clock {
     border-radius: 10px 0px 0px 10px;
 }
 
-#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery {
+#custom-power_btn, #workspaces, #battery, #custom-weather {
     border-radius: 0px 10px 10px 0px;
     margin-right: 10px;
 }
 
+#tray {
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
 #temperature.critical {
-    color: #e92d4d;
+    color: #ED2B2A;
 }
 
 
@@ -134,4 +137,20 @@ tooltip label{
 #battery {
     color: #1d7715;
     border-left: 0px;
+}
+
+#battery.warning {
+    color: #EBB02D;
+}
+
+#battery.critical {
+    color: #ED2B2A;
+}
+
+#custom-weather {
+    border-left: 0px;
+}
+
+#backlight {
+    color: #577D86;
 }
