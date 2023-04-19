@@ -124,6 +124,13 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
      sleep 3
 fi
 
+### Enable NTP sync with system ###
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to autosync system time with NTP? (y,n) ' NTP
+if [[ $NTP == "Y" || $NTP == "y" ]]; then
+     sudo timedatectl set-ntp true
+     sleep 3
+fi
+
 ### Install all of the above packages ####
 # installer() {
 #     arr=$1
@@ -153,7 +160,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    paru -S --needed --noconfirm hyprland-git kitty pistol waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp
+    paru -S --needed --noconfirm hyprland-git kitty pistol-git waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp
 
     #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
@@ -165,7 +172,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 4
     echo -e "\n$CNT - Stage 4 - Installing other required utilities, this may take a while..."
-    paru -S --needed --noconfirm neofetch python-pywal rmtrash exa lf dragon-drag-and-drop gammastep auto-cpufreq
+    paru -S --needed --noconfirm neofetch python-pywal rmtrash exa lf dragon-drop gammastep auto-cpufreq
 
 
 fi
