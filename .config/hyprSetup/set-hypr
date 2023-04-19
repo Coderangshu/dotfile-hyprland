@@ -124,11 +124,12 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
      sleep 3
 fi
 
-### Enable NTP sync with system ###
-read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to autosync system time with NTP? (y,n) ' NTP
+### Enable NTP, local RTC sync with system ###
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to autosync system time with NTP and local RTC? (y,n) ' NTP
 if [[ $NTP == "Y" || $NTP == "y" ]]; then
      sudo timedatectl set-ntp true
-     sleep 3
+     timedatectl set-local-rtc 1
+     sleep 1
 fi
 
 ### Install all of the above packages ####
