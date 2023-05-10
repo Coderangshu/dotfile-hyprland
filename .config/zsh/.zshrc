@@ -33,6 +33,14 @@ lfcd () {
   fi
 }
 
+ssh () {
+	if [[ $TERMINAL == "kitty" ]]; then
+		kitty +kitten ssh "$@"
+	else
+		command $0 "$@"
+	fi
+}
+
 #Plugins
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_plugin "z-shell/fast-syntax-highlighting"
@@ -49,7 +57,7 @@ bindkey -- '^[[1;5C' forward-word
 
 # Environment
 export EDITOR="vim"
-export TERMINAL="alacritty"
+export TERMINAL=$(basename "/"$(ps -o cmd -f -p $(cat /proc/$(echo $$)/stat | cut -d \  -f 4) | tail -1 | sed 's/ .*$//'))
 export BROWSER="firefox"
 export PAGER="most"
 export PATH=$PATH:~/.local/bin
@@ -68,11 +76,12 @@ export NVM_DIR="$HOME/.nvm"
 alias track='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # Replace ls with exa
-alias ls='exa --color=always --group-directories-first --icons' # preferred listing
-alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs
-alias ll='exa -al --color=always --group-directories-first --icons'  # long format
-alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-alias l.="exa -a | egrep '^\.'"                                     # show only dotfiles
+alias ls='lsd --group-directories-first --hyperlink=auto' # preferred listing
+alias la='lsd --group-directories-first --hyperlink=auto -a'  # all files and dirs
+alias ll='lsd --group-directories-first --hyperlink=auto -al'  # long format
+alias lt='lsd --group-directories-first --hyperlink=auto --tree' # tree listing
+alias lta='lsd --group-directories-first --hyperlink=auto --tree -a' # tree listing
+alias l.="lsd --group-directories-first --hyperlink=auto -a | grep -E '^\.'" # show only dotfiles
 
 # Common use
 alias aup="pamac upgrade --aur"

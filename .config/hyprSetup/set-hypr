@@ -45,7 +45,7 @@
 # neofetch: terminal prompt
 # python-pywal: custom colorscheme generator
 # rmtrash: move file to trash
-# exa: modified ls
+# lsd: modified ls
 # lf: terminal file browser
 # ueberzug: image viewer in terminal
 # zsh: bash substitute
@@ -173,7 +173,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #Stage 4
     echo -e "\n$CNT - Stage 4 - Installing other required utilities, this may take a while..."
-    paru -S --needed --noconfirm neofetch python-pywal rmtrash exa lf dragon-drop gammastep auto-cpufreq
+    paru -S --needed --noconfirm neofetch python-pywal rmtrash lsd lf dragon-drop gammastep auto-cpufreq
 
 
 fi

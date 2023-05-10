@@ -147,7 +147,7 @@
     "backlight": {
         "device": "amdgpu_bl0",
         "format": "{icon}",
-        "format-icons": ["", "", ""],
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "exec ~/.config/hypr/scripts/brightness --inc",
         "on-scroll-down": "exec ~/.config/hypr/scripts/brightness --dec"
     },
@@ -162,12 +162,12 @@
         "format-charging": "󰂄",
         "format-alt": "{time} {icon}",
 	"tooltip-format": "{timeTo} ({capacity}%)",
-        "format-icons": ["", "", "", "", "", "", "", "", "", "", ""]
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
 
     "pulseaudio": {
         "format": "{icon}",
-        "format-muted": "",
+        "format-muted": "󰝟",
 	"tooltip-format": "{volume}",
         "on-click": "exec ~/.config/hypr/scripts/volume --toggle",
         "on-click-right": "pavucontrol",
@@ -187,8 +187,8 @@
 
     "pulseaudio#microphone": {
 	"format": "{format_source}",
-        "format-source": "",
-        "format-source-muted": "",
+        "format-source": "",
+        "format-source-muted": "",
 	"tooltip": false,
         "on-click": "exec ~/.config/hypr/scripts/volume --toggle-mic",
         "on-click-right": "pavucontrol",
