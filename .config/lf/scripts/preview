@@ -1,57 +1,43 @@
 #!/usr/bin/env bash
-file=$1
-w=$2
-h=$3
-x=$4
-y=$5
 
-preview() {
-	cat <<-EOF | paste -sd '' >"$LF_UEBERZUG_TEMPDIR/fifo"
-	{
-	"action": "add", "identifier": "lf-preview",
-	"path": "$1", "x": $4, "y": $5, "width": $2, "height": $3,
-	"scaler": "contain"
-	}
-	EOF
+file="$1"
+w="$2"
+h="$3"
+x="$4"
+y="$5"
+
+# Determine mime type
+mimetype=$(file --mime-type -Lb "$file")
+
+# Kitty icat helper
+kitty_show_image() {
+  kitty +kitten icat --silent --stdin no --transfer-mode file \
+    --place "${w}x${h}@${x}x${y}" "$1" < /dev/null > /dev/tty
 }
 
-filetype="$( file -Lb --mime-type "$file")"
-
-if [[ "$filetype" =~ ^image ]]; then
-    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$file" < /dev/null > /dev/tty
+case "$mimetype" in
+  image/*)
+    kitty_show_image "$file"
     exit 1
-fi
-
-if [[ "$filetype" =~ ^video ]]; then
-    # vidthumb is from here:
-    # https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
-    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$(~/.local/scripts/miscellaneous/vidthumb "$file")" < /dev/null > /dev/tty
+    ;;
+  video/*)
+    thumb="/tmp/lfthumb-$(basename "$file").png"
+    ffmpeg -i "$file" -vf "thumbnail,scale=320:-1" -frames:v 1 "$thumb" -y -loglevel quiet
+    [ -f "$thumb" ] && kitty_show_image "$thumb"
     exit 1
-fi
-
-pistol "$file"
-
-file="$1"; shift
-case "$(basename "$file" | tr '[:upper:]' '[:lower:]')" in
-*.tar*) tar tf "$file" ;;
-*.zip) unzip -l "$file" ;;
-*.rar) unrar l "$file" ;;
-*.7z) 7z l "$file" ;;
-*.pdf)
-	thumbnail="$LF_UEBERZUG_TEMPDIR/thumbnail.png"
-	gs -o "$thumbnail" -sDEVICE=pngalpha -dLastPage=1 "$file" >/dev/null
-	preview "$thumbnail" "$@"
-	;;
-*.svg)
-	thumbnail="$LF_UEBERZUG_TEMPDIR/thumbnail.png"
-	gm convert "$file" "$thumbnail"
-	preview "$thumbnail" "$@"
-	;;
-*.gif)
-	thumbnail="$LF_UEBERZUG_TEMPDIR/thumbnail.png"
-	gm convert "$file[0]" "$thumbnail"
-	preview "$thumbnail" "$@"
-	;;
-*) cat "$file" ;;
+    ;;
+  application/pdf)
+    thumb="/tmp/lfthumb-$(basename "$file" .pdf).png"
+    pdftoppm -f 1 -singlefile -png "$file" "/tmp/lfthumb-$(basename "$file" .pdf)" >/dev/null 2>&1
+    [ -f "$thumb" ] && kitty_show_image "$thumb"
+    exit 1
+    ;;
+  text/*|application/json|application/xml)
+    bat --color=always --style=plain "$file" 2>/dev/null || cat "$file"
+    exit 0
+    ;;
+  *)
+    echo "No preview available for this file type: $mimetype"
+    exit 0
+    ;;
 esac
-return 127
